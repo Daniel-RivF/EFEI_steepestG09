@@ -27,27 +27,27 @@ def parsexyz(filename):
 
 
 def read_force(filename):
-    lst = parseALL(filename,'Center     Atomic                   Forces','Cartesian Forces:')
+    lst = parseALL(filename,' Center     Atomic                   Forces',' Cartesian Forces:')
     lines = map(float,lst[6:-1]) 
-    f = [lines[x:x+3] for x in  xrange(0,len(lines),3)]
-    fmat = np.array([i[2:] for i in a])
+    f = [lines[x:x+5] for x in  xrange(0,len(lines),5)]
+    fmat = np.array([i[2:] for i in f])
     return fmat
 
 
 
 def construct_fvector(filename,atom1,atom2,modF,elongation):
-    xyz = parsexyz(filename)
+    xyz = parsexyz(filename)[1]
     N = len(xyz)
     u2 = (xyz[atom2-1]-xyz[atom1-1]) / norm(xyz[atom2-1]-xyz[atom1-1])
     if elongation == 1:
-        f2 = u2 * modF
+        f2 = u2 * modF / 82.387
         f1 = -f2
         z = np.zeros((N,3))
         z[atom2-1] = f2
         z[atom1-1] = f1
         return z
     elif elongation == -1:
-        f1 = u2 * modF
+        f1 = u2 * modF / 82.387
         f2 = -f1
         z = np.zeros((N,3))
         z[atom1-1] = f1
@@ -55,24 +55,24 @@ def construct_fvector(filename,atom1,atom2,modF,elongation):
         return z
 
 
-def newFvector(f_prev,fext):
-    return f_prev + fext
-
-
-
-def new_xyz(xyz_prev,fvector_prev,step):
-    #Steepest (Force direction)
-    n_xyz = xyz_prev + step * fvector_prev
-
+def new_xyzvector(filename,fvector,step):
+    # fvector from construct_fvector.
+    f_prev = read_force(filename)
+    f_new = f_prev + fvector
+    old_xyz = parsexyz(filename)[1]
+    new_xyz = old_xyz + step * f_new
     return new_xyz
 
 
-def new_input(filename,route_sect,charge,spin,new_xyz):
-    with open(filename,'w') as f:
-        f.write('%chk = %s ' % )
 
-
-    return
+#def new_input(filename,route_sect,charge,spin,new_xyz):
+#    with open(filename,'w') as f:
+#
+#    with open(filename,'w') as f:
+#        f.write('%chk = %s ' % )
+#
+#
+#    return
 
 
 ##########################################
