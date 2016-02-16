@@ -54,6 +54,12 @@ def construct_fvector(filename,atom1,atom2,modF,elongation):
         z[atom2-1] = f2
         return z
 
+
+def newFvector(f_prev,fext):
+    return f_prev + fext
+
+
+
 def new_xyz(xyz_prev,fvector_prev,step):
     #Steepest (Force direction)
     n_xyz = xyz_prev + step * fvector_prev
@@ -61,7 +67,10 @@ def new_xyz(xyz_prev,fvector_prev,step):
     return new_xyz
 
 
-def new_input(charge,spin,xyz,name):
+def new_input(filename,route_sect,charge,spin,new_xyz):
+    with open(filename,'w') as f:
+        f.write('%chk = %s ' % )
+
 
     return
 
