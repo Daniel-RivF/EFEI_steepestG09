@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.linalg import norm
+import os,re
 
 def parseALL(filename,first,second):
     parsing = False
@@ -15,6 +16,13 @@ def parseALL(filename,first,second):
             a = line.split()
             name.extend(a)
     return name
+
+def Check_termination(filename):
+    if 'Normal termination' in open(filename).read():
+        return True
+    else:
+        return False
+
 
 
 def parsexyz(filename):
@@ -63,10 +71,26 @@ def new_xyzvector(filename,fvector,step):
     new_xyz = old_xyz + step * f_new
     return new_xyz
 
+def new_input(file_inp,route_sect,charge,spin,Z,new_xyz):
+    xyz = zip(Z,new_xyz.tolist())
+    chk = os.path.splitext(file_inp)[0]
+    chk1 = re.sub('[._-]', '', chk)
+    with open(file_inp,'w') as f:
+         f.write('%schk=%s \n' %('%',chk1))
+         f.write('%nproc=4 \n')
+         f.write('%mem=4gb \n')
+         f.write('%s \n' % route_sect)
+         f.write(' \n')
+         f.write('COMMENT \n')
+         f.write(' \n')
+         f.write('%s %s \n' %(charge,spin))
+         for line in xyz:
+             f.write('%s %s \n' %(line[0], ' '.join(map(str,line[1]))))
+         f.write('  \n')
+    return
 
 
-#def new_input(filename,route_sect,charge,spin,new_xyz):
-#    with open(filename,'w') as f:
+
 #
 #    with open(filename,'w') as f:
 #        f.write('%chk = %s ' % )
