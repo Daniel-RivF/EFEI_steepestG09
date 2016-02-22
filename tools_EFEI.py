@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.linalg import norm
-import os,re
+import os, re, shutil 
 
 def parseALL(filename,first,second):
     parsing = False
@@ -76,7 +76,7 @@ def new_input(file_inp,route_sect,charge,spin,Z,new_xyz):
     chk = os.path.splitext(file_inp)[0]
     chk1 = re.sub('[._-]', '', chk)
     with open(file_inp,'w') as f:
-         f.write('%schk=%s \n' %('%',chk1))
+         f.write('%schk=%s \n' %('%',chk1 + '.chk'))
          f.write('%nproc=4 \n')
          f.write('%mem=4gb \n')
          f.write('%s \n' % route_sect)
