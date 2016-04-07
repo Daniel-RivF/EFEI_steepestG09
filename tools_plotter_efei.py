@@ -2,6 +2,8 @@ import numpy as np
 from numpy.linalg import norm
 import os, re, shutil, math 
 
+
+###
 def parseALL(filename,first,second):
     parsing = False
     name = []
