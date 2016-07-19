@@ -185,8 +185,6 @@ def xyz_writer(lista_f,fout):
     return
 
 
-
-
 def usr_coords(lista_f,arguments):
     geoms = [i[0] for i in read_geoms(lista_f)]
     a = []
@@ -217,9 +215,6 @@ def writer_coords(list_E_coord,fout):
 def energies_W(filename,filename_ref,atom1,atom2):
     # Mechanical work exerted by the force over two atoms
     return energies_W
-
-
-
 
 
 def forces_atoms(lista_f,atom1, atom2):

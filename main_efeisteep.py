@@ -33,7 +33,7 @@ maxsteps = 999
 basename = os.path.splitext(first_file)[0] 
 
 
-points_list = ["%04d" % x for x in range(maxsteps)]
+points_list = ["%03d" % x for x in range(maxsteps)]
 filenames_out_list = [ basename + '.efei.' + j + '.log' for j in points_list]
 filenames_inp_list = [ basename + '.efei.' + j + '.com' for j in points_list]
 
