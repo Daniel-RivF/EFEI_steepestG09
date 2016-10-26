@@ -151,6 +151,20 @@ def extract_E(filename):
         all_E.append(c)
     return reduce(lambda x,y: x+y,all_E)
 
+def extract_E_W(filename,atom1,atom2,modF,ref):
+    eners=extract_E(filename)
+    xyz=parsexyz(filename)[1]
+    d12=norm(xyz[atom2-1]-xyz[atom1-1]) * 1.889725989
+    difd = (d12 - ref)
+    modf = modF /82.387
+    W = modf * difd
+    E_W=[e-W for e in eners]
+    return eners+E_W
+
+
+
+
+
 
 def read_geoms(lista_f):
     a = []
@@ -167,9 +181,10 @@ def read_geoms(lista_f):
         a.append(geom_i)
     return zip(a,Zs)
 
-def extract_eners(lista_f):
-    eners = [extract_E(filename) for filename in lista_f]
-    return eners
+def extract_eners(lista_f,atom1,atom2,ref,modF):
+    enersW = [extract_E_W(filename,atom1,atom2,ref,modF) for filename in lista_f]
+    return  enersW
+
 
 
 def xyz_writer(lista_f,fout):
@@ -194,8 +209,8 @@ def usr_coords(lista_f,arguments):
     return a
 
 
-def coords_eners(lista_f,arguments):
-    eners = extract_eners(lista_f)
+def coords_eners(lista_f,arguments, atom1,atom2,ref,modF):
+    eners = extract_eners(lista_f, atom1,atom2,ref,modF) 
     if len(usr_coords(lista_f,arguments)) > 1:
         coords = zip(*usr_coords(lista_f,arguments))
         return zip(eners,coords)

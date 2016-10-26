@@ -15,15 +15,18 @@ atom2 = 8
 modF = 1.0
 elongation = 1 
 step = 0.2
+# Reference distance for Mechanical work, in Angstrom.
+ref=2.1
+
 # atom indexes for coordinates
-arguments= [ [5,8],[1,7,13,8],[4,8,7,14],[4,5,6,11],[5,6,12,1],[6,7] ]
+arguments= [ [5,8],[5,7] ,[6,8]  , [1,7,13,8],[4,8,7,14],[4,5,6,11],[5,6,12,1],[6,7] ]
 
 #for i in $(ls -d ???/); do j=${i%?}; cp $j/optFext.log ../stp.efei.${j}.log; done
 lista_f = sorted(glob.glob('*log'))
 fout_xyz = os.path.splitext(first_file)[0] + '.PATH.xyz'
 tools.xyz_writer(lista_f,fout_xyz)
 fout_coordsE = os.path.splitext(first_file)[0] + '.coordsE'
-list_E_coord = tools.coords_eners(lista_f,arguments)
+list_E_coord = tools.coords_eners(lista_f,arguments,atom1,atom2,ref,modF)
 tools.writer_coords(list_E_coord,fout_coordsE)
 
 
